@@ -1,9 +1,10 @@
 import React,{ useState, useEffect } from 'react';
 import './App.css';
 import Axios from 'axios';
+import GalleryList from '../GalleryList/GalleryList';
 
 function App() {
-  let [galleryPhoto, setGalleryPhoto] = useState([])
+  let [galleryPhotos, setGalleryPhotos] = useState([])
 
 
   useEffect(() => [
@@ -11,12 +12,12 @@ function App() {
   ], [])
     
   const getPhotos = () => {
-    console.log('In get Photos')
+    console.log('In getPhotos')
 
     Axios.get('/gallery')
         .then((response) => {
-          setGalleryPhoto(response.data);
-          console.log('Photo', galleryPhoto)
+          setGalleryPhotos(response.data);
+          console.log('Photo', galleryPhotos)
         })
         .catch((err) => {
           console.log('Failed GET', err)
@@ -34,8 +35,9 @@ function App() {
         <header className="App-header">
           <h1 className="App-title">Gallery of My Life</h1>
         </header>
-        <p>Gallery goes here</p>
-        <img src="images/goat_small.jpg"/>
+        <p>Gallery goes heres</p>
+        <img src="images/goat_small.jpg"/><p></p>
+        <GalleryList galleryPhotos={galleryPhotos}/>
       </div>
     );
 }
