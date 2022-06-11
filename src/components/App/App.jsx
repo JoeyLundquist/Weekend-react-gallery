@@ -7,15 +7,16 @@ function App() {
   let [galleryPhotos, setGalleryPhotos] = useState([])
 
 
-  useEffect(() => [
+  useEffect(() => {
     getPhotos()
-  ], [])
+}, [])
 
-  const givePhotoLove = (photoId) => {
-    console.log('in givePhotoLove', photoId.id.id)
+  const givePhotoLove = (photo) => {
+    const photoId = photo.id.id;
+    const photoLikes = {likes:photo.id.likes};
+    console.log('in givePhotoLove photoId is', photoId, 'photo likes is ', photoLikes)
 
-
-    Axios.put(`/gallery/like/${photoId.id.id}`)
+    Axios.put(`/gallery/like/${photoId}`, photoLikes)
       .then(() => {
         getPhotos();
       })
