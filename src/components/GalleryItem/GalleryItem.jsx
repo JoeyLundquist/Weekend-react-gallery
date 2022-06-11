@@ -10,6 +10,8 @@ const GalleryItem = ({photo}) => {
             <li className='img-container'>
                 {!photoDescription? <img onClick={togglePhotoDescription} src={photo.path}/> : 
                 <div className='description-div' onClick={() => setPhotoDescription(false)}>{photo.description}</div>}
+                <button>Love it!</button>
+                <div>{!photo.likes? <span>No people love this photo :(</span> : <span>{photo.likes} people love this!</span>}</div>
             </li>
         </>
     )

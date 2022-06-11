@@ -6,9 +6,10 @@
     display: inline-block;
 }
 
-img {
+.img-container img {
     width: 150px;
     height: 150px;
+    margin: 20px auto;
 }
 
 .img-container {
@@ -16,4 +17,9 @@ img {
     height: 200px;
     display: inline-block;
     margin: 25px;
+}
+
+.img-container button {
+    width: 100px;
+    margin-bottom: 15px;
 }
