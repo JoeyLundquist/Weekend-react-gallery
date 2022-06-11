@@ -30,6 +30,28 @@ router.post('/', (req, res) => {
 
 })
 
+router.delete('/:id', (req, res) => {
+    console.log(req.params.id)
+
+    const sqlQuery = `
+        DELETE FROM gallery_items
+        WHERE id = $1;
+    `
+
+    const sqlParams = [
+        req.params.id
+    ];
+
+    pool.query(sqlQuery, sqlParams)
+        .then(() => {
+            res.sendStatus(200);
+        })
+        .catch((err) => {
+            console.log('DELETE failed', err);
+            res.sendStatus(500);
+        })
+})
+
 
 // PUT Route
 router.put('/like/:id', (req, res) => {
