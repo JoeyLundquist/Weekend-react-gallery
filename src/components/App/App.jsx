@@ -54,6 +54,19 @@ function App() {
         })
   }
 
+  const deletePhotoFromGallery = (photo) => {
+      console.log('In Delete')
+      console.log(photo.id)
+
+      Axios.delete(`/gallery/${photo.id}`)
+          .then(() => {
+            getPhotos();
+          })
+          .catch((err) => {
+            console.log('DELETE failed', err)
+          })
+  }
+
 
 
 
@@ -66,6 +79,7 @@ function App() {
       <GalleryList 
       galleryPhotos={galleryPhotos}
       givePhotoLove={givePhotoLove}
+      deletePhoto={deletePhotoFromGallery}
       />
     </div>
   );

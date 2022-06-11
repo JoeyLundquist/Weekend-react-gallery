@@ -1,11 +1,15 @@
 import react, {useState} from 'react'
 import './GalleryItem.css'
 
-const GalleryItem = ({photo, givePhotoLove}) => {
+const GalleryItem = ({photo, givePhotoLove, deletePhoto}) => {
     const [photoDescription, setPhotoDescription] = useState(false)
     const togglePhotoDescription = () => {setPhotoDescription(true)}
     const addLoveToPhoto = () => {
         givePhotoLove({id: photo})
+    }
+
+    const deleteFromGallery = () => {
+        deletePhoto({id: photo.id})
     }
 
     return (
@@ -17,6 +21,11 @@ const GalleryItem = ({photo, givePhotoLove}) => {
                     onClick={addLoveToPhoto}
                 >
                     Love it!
+                </button>
+                <button
+                    onClick={deleteFromGallery}
+                >
+                    Delete
                 </button>
                 <div>{!photo.likes? <span>No people love this :(</span> : <span>{photo.likes} people love this!</span>}</div>
             </li>
