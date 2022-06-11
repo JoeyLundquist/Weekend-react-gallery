@@ -18,7 +18,7 @@ const GalleryItem = ({photo, givePhotoLove}) => {
                 >
                     Love it!
                 </button>
-                <div>{!photo.likes? <span>No people love this photo :(</span> : <span>{photo.likes} people love this!</span>}</div>
+                <div>{!photo.likes? <span>No people love this :(</span> : <span>{photo.likes} people love this!</span>}</div>
             </li>
         </>
     )

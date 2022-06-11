@@ -4,6 +4,32 @@ const galleryItems = require('../modules/gallery.data');
 const pool = require('../modules/pool.js')
 
 // DO NOT MODIFY THIS FILE FOR BASE MODE
+//POST route
+router.post('/', (req, res) => {
+    console.log('In POST', req.body)
+
+    const sqlQuery = `
+        INSERT INTO gallery_items
+        (path, description)
+        VALUES
+        ($1, $2);
+    `
+    const sqlParams = [
+        req.body.path,
+        req.body.description
+    ]
+
+    pool.query(sqlQuery, sqlParams)
+        .then(() => {
+            res.sendStatus(204)
+        })
+        .catch((err) => {
+            console.log('POST failed', err)
+            res.sendStatus(500)
+        })
+
+})
+
 
 // PUT Route
 router.put('/like/:id', (req, res) => {
@@ -13,11 +39,6 @@ router.put('/like/:id', (req, res) => {
     let likes = req.body.likes;
     likes += 1;
 
-    // for(const galleryItem of galleryItems) {
-    //     if(galleryItem.id == galleryId) {
-    //         galleryItem.likes += 1;
-    //     }
-    // }
     const sqlQuery = `
         UPDATE gallery_items
         SET likes = $1
