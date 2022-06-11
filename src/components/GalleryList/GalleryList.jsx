@@ -1,6 +1,6 @@
 import GalleryItem from "../GalleryItem/GalleryItem";
 
-const GalleryList = ({galleryPhotos}) => {
+const GalleryList = ({galleryPhotos, givePhotoLove}) => {
     return (
         <>
             <ul>
@@ -9,6 +9,7 @@ const GalleryList = ({galleryPhotos}) => {
                         <GalleryItem 
                             key={photo.id}
                             photo={photo}
+                            givePhotoLove={givePhotoLove}
                         />
                    )
                 })}
