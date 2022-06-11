@@ -1,0 +1,19 @@
+.description-div {
+    width: 150px;
+    height: 150px;
+    margin: 20px auto;
+    border: 1px solid green;
+    display: inline-block;
+}
+
+img {
+    width: 150px;
+    height: 150px;
+}
+
+.img-container {
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+    margin: 25px;
+}
