@@ -10,6 +10,19 @@ function App() {
   useEffect(() => [
     getPhotos()
   ], [])
+
+  const givePhotoLove = (photoId) => {
+    console.log('in givePhotoLove', photoId.id.id)
+
+
+    Axios.put(`/gallery/like/${photoId.id.id}`)
+      .then(() => {
+        getPhotos();
+      })
+      .catch((err) => {
+        console.log('Failed to give photo love', err)
+      })
+  }
     
   const getPhotos = () => {
     console.log('In getPhotos')
@@ -36,7 +49,10 @@ function App() {
           <h1 className="App-title">Gallery of My Life</h1>
         </header>
         
-        <GalleryList galleryPhotos={galleryPhotos}/>
+        <GalleryList 
+        galleryPhotos={galleryPhotos}
+        givePhotoLove={givePhotoLove}
+        />
       </div>
     );
 }
