@@ -1,36 +1,35 @@
 import { useState } from "react";
 
-const GalleryForm = ({addPhotoToGallery, fileName, setFileName, selectedFile, setSelectedFile }) => {
-    const [imgPath, setImgPath] = useState('');
+//Function for rendering my Gallery form
+const GalleryForm = ({addPhotoToGallery, selectedFileHandler }) => {
+    //State for setting and sending image description
     const [imgDescription, setImgDescription] = useState('')
 
+
+    //My submit button function, runs my photo description to axios POST function in APP.JS
     const onSubmit = (e) => {
+        //Prevents page reload when submitting form
         e.preventDefault();
+
+        //Brought down to grab photo description and send it to axios for POST request
         addPhotoToGallery({
-            path: imgPath,
-            description: imgDescription
+            description: imgDescription,
         })
     }
-
+    //Renders for my GalleryForm
     return (
         <>
-            <form onSubmit={onSubmit} encType="multipart/form-data" action="/gallery">
+            {/* Form to upload photo */}
+            <form onSubmit={onSubmit} encType="multipart/form-data" action="/gallery" >
                 <input 
                     type="file" 
-                    onChange={e => setSelectedFile(e.target.files[0])}
+                    onChange={selectedFileHandler}
                     name="image"
 
                 />
             </form>
+            {/* Form for description, I separated them since uploads need multipart or form-data and this is just text */}
             <form onSubmit={onSubmit}>
-           
-                <input 
-                    onChange={(evt) => setImgPath(evt.target.value)}
-                    type="text"
-                    placeholder="Image Path"
-                    value={imgPath}
-                    required
-                />
                 <input 
                     onChange={(evt) => setImgDescription(evt.target.value)}
                     type="text"

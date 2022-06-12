@@ -1,5 +1,8 @@
 const express = require('express');
+
+//multer is for saving my uploaded files to server
 const multer  = require('multer');
+//This is the storage engine defining how and where i want to store my images
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, './public/images')
@@ -8,16 +11,17 @@ const storage = multer.diskStorage({
         cb(null, file.originalname)
     }
 })
+//Setting up upload to have my storage engine in variable for easier typing later
 const upload = multer({ storage: storage });
 const router = express.Router();
+//galleryItems is no longer needed could be deleted
 const galleryItems = require('../modules/gallery.data');
 const pool = require('../modules/pool.js')
 
 // DO NOT MODIFY THIS FILE FOR BASE MODE
-//POST route
-router.post('/', upload.single('image'), (req, res) => {
+//POST route fo DB
+router.post('/', (req, res) => {
     console.log('In POST', req.body)
-    console.log('file?', req.file)
 
     const sqlQuery = `
         INSERT INTO gallery_items
@@ -40,7 +44,16 @@ router.post('/', upload.single('image'), (req, res) => {
         })
 
 })
+//POST route to get my uploaded files to server
+router.post('/upload', upload.single('image'), (req, res) => {
+    console.log('In POST', req.body)
+    console.log('file?', req.file)
 
+    res.sendStatus(200)
+})
+
+
+//DELETE route to send DELETE request to DB
 router.delete('/:id', (req, res) => {
     console.log(req.params.id)
 
@@ -93,7 +106,7 @@ router.put('/like/:id', (req, res) => {
 
 }); // END PUT Route
 
-// GET Route
+// GET Route for getting photo info back to client to render in app
 router.get('/', (req, res) => {
     const sqlQuery = `
         SELECT * FROM gallery_items
@@ -105,6 +118,7 @@ router.get('/', (req, res) => {
         })
         .catch((err) => {
             console.log('GET failed', err)
+            res.sendStatus(500)
         })
     
     
