@@ -8,20 +8,23 @@ import GalleryForm from '../GalleryForm/GalleryForm';
 
 
 function App() {
+  //State to grab and render photos 
   const [galleryPhotos, setGalleryPhotos] = useState([]);
-  const [fileName, setFileName] = useState();
+  //State to grab files to be uploaded
   const [selectedFile, setSelectedFile] = useState([]);
 
-
+  //On Page load
   useEffect(() => {
     getPhotos();
   }, [])
-
+  
+  //This is to add likes to photos
   const givePhotoLove = (photo) => {
     const photoId = photo.id.id;
     const photoLikes = {likes: photo.id.likes};
     console.log('in givePhotoLove photoId is', photoId, 'photo likes is ', photoLikes);
 
+    //PUT request to update number of likes
     Axios.put(`/gallery/like/${photoId}`, photoLikes)
         .then(() => {
           getPhotos();
@@ -30,7 +33,7 @@ function App() {
           console.log('Failed to give photo love', err);
         })
   }
-    
+    //GET request to grab photo paths and descriptions
   const getPhotos = () => {
     console.log('In getPhotos');
 
@@ -44,10 +47,12 @@ function App() {
           alert('Failed to GET from gallery');
         })
   }
-
+  //POST request function for uploading and adding new photos
   const addPhotoToGallery = (photoToAdd) => {
     console.log('in POST')
-
+    photoToAdd.path = `images/${selectedFile.name}`
+    
+    //this POST sends the path and description to DB
     Axios.post('/gallery', photoToAdd)
         .then(() => {
           console.log('POST success')
@@ -57,40 +62,53 @@ function App() {
           console.log('POST failed', err)
           alert('Failed to add photo to gallery.', err)
         })
-  }
 
+    //this POST sends new picture to server for storage
+    Axios.post('/gallery/upload', formData)
+        .then(() => {
+          console.log('Upload success')
+        })
+        .catch((err) => {
+          console.log('failed uploading ',err)
+        })
+  }
+  //DELETE request to remove path and description from DB
   const deletePhotoFromGallery = (photo) => {
-      console.log('In Delete')
-      console.log(photo.id)
+    console.log('In Delete')
+    console.log(photo.id)
 
-      Axios.delete(`/gallery/${photo.id}`)
-          .then(() => {
-            getPhotos();
-          })
-          .catch((err) => {
-            console.log('DELETE failed', err)
-          })
+    Axios.delete(`/gallery/${photo.id}`)
+        .then(() => {
+          getPhotos();
+        })
+        .catch((err) => {
+          console.log('DELETE failed', err)
+        })
   }
 
+  //Function to grab file for upload
+  const selectedFileHandler = (e) => {setSelectedFile(e.target.files[0])}
+
+  //Setting form data to be sent to server
+  const formData = new FormData();
+  formData.append('image', selectedFile)
 
 
 
+  //Render return
   return (
     <div className="App">
       <header className="App-header">
         <h1 className="App-title">Gallery of My Life</h1>
       </header>
       <GalleryForm 
-      addPhotoToGallery={addPhotoToGallery}
-      fileName={fileName}
-      setFileName={setFileName}
-      selectedFile={selectedFile}
-      setSelectedFile={setSelectedFile}
+        addPhotoToGallery={addPhotoToGallery}
+        selectedFileHandler={selectedFileHandler}
       />
       <GalleryList 
-      galleryPhotos={galleryPhotos}
-      givePhotoLove={givePhotoLove}
-      deletePhoto={deletePhotoFromGallery}
+        galleryPhotos={galleryPhotos}
+        givePhotoLove={givePhotoLove}
+        deletePhoto={deletePhotoFromGallery}
       />
     </div>
     
