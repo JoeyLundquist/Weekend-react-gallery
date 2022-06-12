@@ -4,8 +4,13 @@ import Axios from 'axios';
 import GalleryList from '../GalleryList/GalleryList';
 import GalleryForm from '../GalleryForm/GalleryForm';
 
+
+
+
 function App() {
-  let [galleryPhotos, setGalleryPhotos] = useState([])
+  const [galleryPhotos, setGalleryPhotos] = useState([]);
+  const [fileName, setFileName] = useState();
+  const [selectedFile, setSelectedFile] = useState([]);
 
 
   useEffect(() => {
@@ -75,13 +80,20 @@ function App() {
       <header className="App-header">
         <h1 className="App-title">Gallery of My Life</h1>
       </header>
-      <GalleryForm addPhotoToGallery={addPhotoToGallery}/>
+      <GalleryForm 
+      addPhotoToGallery={addPhotoToGallery}
+      fileName={fileName}
+      setFileName={setFileName}
+      selectedFile={selectedFile}
+      setSelectedFile={setSelectedFile}
+      />
       <GalleryList 
       galleryPhotos={galleryPhotos}
       givePhotoLove={givePhotoLove}
       deletePhoto={deletePhotoFromGallery}
       />
     </div>
+    
   );
 }
 

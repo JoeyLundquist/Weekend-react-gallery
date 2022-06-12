@@ -1,12 +1,23 @@
 const express = require('express');
+const multer  = require('multer');
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './public/images')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname)
+    }
+})
+const upload = multer({ storage: storage });
 const router = express.Router();
 const galleryItems = require('../modules/gallery.data');
 const pool = require('../modules/pool.js')
 
 // DO NOT MODIFY THIS FILE FOR BASE MODE
 //POST route
-router.post('/', (req, res) => {
+router.post('/', upload.single('image'), (req, res) => {
     console.log('In POST', req.body)
+    console.log('file?', req.file)
 
     const sqlQuery = `
         INSERT INTO gallery_items
