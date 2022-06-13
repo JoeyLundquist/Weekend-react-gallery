@@ -1,4 +1,5 @@
 import { useState } from "react";
+import './GalleryForm.css'
 
 //Function for rendering my Gallery form
 const GalleryForm = ({addPhotoToGallery, selectedFileHandler }) => {
@@ -19,26 +20,32 @@ const GalleryForm = ({addPhotoToGallery, selectedFileHandler }) => {
     //Renders for my GalleryForm
     return (
         <>
-            {/* Form to upload photo */}
-            <form onSubmit={onSubmit} encType="multipart/form-data" action="/gallery" >
-                <input 
-                    type="file" 
-                    onChange={selectedFileHandler}
-                    name="image"
+            <div className="input-container">
+                {/* Form to upload photo */}
+                <form onSubmit={onSubmit} encType="multipart/form-data" action="/gallery" >
+                    <input 
+                        type="file" 
+                        onChange={selectedFileHandler}
+                        name="image"
+                        className="upload-btn"
 
-                />
-            </form>
-            {/* Form for description, I separated them since uploads need multipart or form-data and this is just text */}
-            <form onSubmit={onSubmit}>
-                <input 
-                    onChange={(evt) => setImgDescription(evt.target.value)}
-                    type="text"
-                    placeholder="Image Description"
-                    value={imgDescription}
-                    required
-                />
-                <input type="submit" value="Post Image" />
-            </form>
+                    />
+                </form>
+                {/* Form for description, I separated them since uploads need multipart or form-data and this is just text */}
+            
+                <form onSubmit={onSubmit}>
+                    <input type="submit" value="Post Image" className="post-image-btn"/>
+                    <input 
+                        className="image-description-input"
+                        onChange={(evt) => setImgDescription(evt.target.value)}
+                        type="text"
+                        placeholder="Image Description"
+                        value={imgDescription}
+                        required
+                    />
+                
+                </form>
+            </div>
         </>
     )
 }

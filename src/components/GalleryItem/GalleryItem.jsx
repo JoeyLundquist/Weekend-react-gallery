@@ -32,6 +32,7 @@ const GalleryItem = ({photo, givePhotoLove, deletePhoto}) => {
                     Love it!
                 </button>
                 <button
+                    className='delete-photo-btn'
                     onClick={deleteFromGallery}
                 >
                     Delete
